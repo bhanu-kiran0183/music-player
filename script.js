@@ -94,6 +94,11 @@ prevBtn.addEventListener("click", function () {
 });
 console.log(songs.length);
 
+function nextSong() {
+  loadSong(songs[i]);
+  console.log(songs[i]);
+}
+
 //update progress bar
 music.addEventListener("timeupdate", (ele) => {
   if (isPlaying === true) {
@@ -109,8 +114,36 @@ music.addEventListener("timeupdate", (ele) => {
     if (seconds < 10) {
       seconds = `0${seconds}`;
     }
-    console.log(minutes, seconds);
+    //console.log(minutes, seconds);
     //displaying duration on screen
     durationEl.textContent = `${minutes}:${seconds}`;
+    //calculate current duration
+    let minutes1 = Math.floor(currentTime / 60);
+    let seconds1 = Math.floor(currentTime % 60);
+    console.log(minutes1, seconds1);
+    if (seconds1 < 10) {
+      seconds1 = `0${seconds1}`;
+    }
+    currentTimeEl.textContent = `${minutes1}:${seconds1}`;
   }
+});
+
+//event listener for setting progress bar
+
+//set progress bar
+
+function setProgressBar(e) {
+  console.log(e);
+  const { clientWidth } = e.srcElement;
+  //const offestX1 = this.offsetX;
+  const { offsetX } = e;
+  console.log(clientWidth, offsetX);
+  const { duration } = music;
+  music.currentTime = (offsetX / clientWidth) * duration;
+}
+
+progressContainer.addEventListener("click", setProgressBar);
+
+music.addEventListener("ended", () => {
+  forwardBtn;
 });
